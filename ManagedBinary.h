@@ -213,9 +213,15 @@ template<class T>
 inline void ManagedBinary<T>::swap(thisClass& with) throw ()
 {
 	thisClass dummyOne;
-	memcpy(&dummyOne, &with, sizeof(thisClass));
-	memcpy(&with, this, sizeof(thisClass));
-	memcpy(this, &dummyOne, sizeof(thisClass));
+	dummyOne.size = with.size;
+	dummyOne.realSize = with.realSize;
+	dummyOne.data = with.data;
+	with.size = this->size;
+	with.realSize = this->realSize;
+	with.data = this->data;
+	this->size = dummyOne.size;
+	this->realSize = dummyOne.realSize;
+	this->data = dummyOne.data;
 	dummyOne.clearUpOnDelete = false;
 }
 
